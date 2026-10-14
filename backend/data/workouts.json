@@ -1,0 +1,30 @@
+[
+  {
+    "id": "de6f8cd9-65ec-4cc2-afd5-8656cd38eccd",
+    "user_id": "a0fd6711-fc05-4b3b-9ee0-197ca30761b0",
+    "exercise_id": "ex-ow-1",
+    "exercise_name": "Incline Treadmill Brisk Walk",
+    "date": "2026-10-09",
+    "duration_minutes": 25.0,
+    "sets": 3,
+    "reps": 12,
+    "weight_kg": 0.0,
+    "calories_burned": 180.0,
+    "notes": "Great warm-up session",
+    "created_at": "2026-10-14T19:21:51.855977"
+  },
+  {
+    "id": "098998cb-874a-4216-a0e3-4970534afce6",
+    "user_id": "a0fd6711-fc05-4b3b-9ee0-197ca30761b0",
+    "exercise_id": "ex-ow-1",
+    "exercise_name": "Incline Treadmill Brisk Walk",
+    "date": "2026-10-09",
+    "duration_minutes": 25.0,
+    "sets": 3,
+    "reps": 12,
+    "weight_kg": 0.0,
+    "calories_burned": 180.0,
+    "notes": "Great warm-up session",
+    "created_at": "2026-10-14T19:22:54.871850"
+  }
+]

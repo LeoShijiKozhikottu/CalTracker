@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: caltracker_mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=caltracker_db
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: caltracker_backend
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017
+      - DB_NAME=caltracker_db
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - HOST=0.0.0.0
+      - PORT=8000
+    depends_on:
+      - mongodb
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: caltracker_frontend
+    restart: always
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+volumes:
+  mongo_data:

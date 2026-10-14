@@ -1,0 +1,106 @@
+[
+  {
+    "id": "a0fd6711-fc05-4b3b-9ee0-197ca30761b0",
+    "name": "Leon",
+    "email": "leon@gmail.com",
+    "age": 24,
+    "gender": "male",
+    "height_cm": 175.0,
+    "weight_kg": 75.0,
+    "activity_level": "moderately_active",
+    "fitness_goal": "bulking",
+    "diet_style": "balanced",
+    "bmr": 1728.8,
+    "tdee": 2679.6,
+    "target_calories": 3080.0,
+    "target_macros": {
+      "protein_g": 150.0,
+      "carbs_g": 468.1,
+      "fats_g": 67.5
+    },
+    "target_micros": {
+      "sugar_g": 40.0,
+      "cholesterol_mg": 300.0,
+      "sodium_mg": 2300.0,
+      "fiber_g": 35.0,
+      "vitamin_a_mcg": 900.0,
+      "vitamin_c_mg": 90.0,
+      "vitamin_d_iu": 800.0,
+      "vitamin_b12_mcg": 2.4,
+      "iron_mg": 14.0,
+      "calcium_mg": 1000.0,
+      "potassium_mg": 3400.0
+    },
+    "created_at": "2026-10-14T18:10:27.175783",
+    "updated_at": "2026-10-14T18:28:19.424231"
+  },
+  {
+    "id": "595d4a6e-09aa-445e-8c1a-ab609b59ad94",
+    "name": "Karthik (CrossFit)",
+    "age": 27,
+    "gender": "male",
+    "height_cm": 176.0,
+    "weight_kg": 74.0,
+    "activity_level": "very_active",
+    "fitness_goal": "bulking",
+    "diet_style": "high_protein",
+    "bmr": 1710.0,
+    "tdee": 2949.8,
+    "target_calories": 3350.0,
+    "target_macros": {
+      "protein_g": 148.0,
+      "carbs_g": 539.6,
+      "fats_g": 66.6
+    },
+    "target_micros": {
+      "sugar_g": 40.0,
+      "cholesterol_mg": 300.0,
+      "sodium_mg": 2300.0,
+      "fiber_g": 35.0,
+      "vitamin_a_mcg": 900.0,
+      "vitamin_c_mg": 90.0,
+      "vitamin_d_iu": 800.0,
+      "vitamin_b12_mcg": 2.4,
+      "iron_mg": 14.0,
+      "calcium_mg": 1000.0,
+      "potassium_mg": 3400.0
+    },
+    "created_at": "2026-10-14T19:22:54.794728",
+    "updated_at": "2026-10-14T19:22:54.794728"
+  },
+  {
+    "id": "7d4abfd5-0b77-4c18-af2f-4830baa8c5ca",
+    "name": "Test Gymmer",
+    "email": "test_gymmer_api@gym.com",
+    "age": 30,
+    "gender": "male",
+    "height_cm": 172.0,
+    "weight_kg": 95.0,
+    "activity_level": "lightly_active",
+    "fitness_goal": "overweight_loss",
+    "diet_style": "low_carb",
+    "bmr": 1880.0,
+    "tdee": 2585.0,
+    "target_calories": 2035.0,
+    "target_macros": {
+      "protein_g": 152.0,
+      "carbs_g": 143.0,
+      "fats_g": 95.0
+    },
+    "target_micros": {
+      "sugar_g": 40.0,
+      "cholesterol_mg": 300.0,
+      "sodium_mg": 2300.0,
+      "fiber_g": 35.0,
+      "vitamin_a_mcg": 900.0,
+      "vitamin_c_mg": 90.0,
+      "vitamin_d_iu": 800.0,
+      "vitamin_b12_mcg": 2.4,
+      "iron_mg": 14.0,
+      "calcium_mg": 1000.0,
+      "potassium_mg": 3400.0
+    },
+    "created_at": "2026-10-14T19:22:54.823643",
+    "updated_at": "2026-10-14T19:22:54.823643"
+  }
+]
