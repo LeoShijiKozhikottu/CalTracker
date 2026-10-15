@@ -7,7 +7,6 @@ Usage:
     python3 run.py      (Linux / Ubuntu / macOS)
 """
 
-import os
 import sys
 import shutil
 import signal
@@ -88,6 +87,8 @@ def ensure_frontend_deps():
 def stream_logs(proc: subprocess.Popen, prefix: str, color_code: str):
     """Streams process stdout/stderr with a recognizable colored prefix."""
     reset_code = "\033[0m"
+    if proc.stdout is None:
+        return
     try:
         for line in iter(proc.stdout.readline, ""):
             if not line:
