@@ -68,26 +68,70 @@ To prevent information overload on a single screen, the application is divided i
 
 ## 🚀 Running the Project
 
-### Windows 1-Click Launch:
-Double-click `start_caltracker.bat` in the root folder. It launches both the FastAPI backend and React frontend automatically!
-
-### Manual Launch:
-
-#### 1. Backend (FastAPI):
-```powershell
-cd backend
-.\venv\Scripts\activate
-uvicorn main:app --reload --port 8000
+### Option 1: Universal 1-Command Launch (Recommended for ALL Operating Systems)
+Run in the root project folder:
+```bash
+python run.py       # Windows
+python3 run.py      # Linux / Ubuntu / Debian / macOS
 ```
-- API URL: `http://localhost:8000`
-- Swagger Interactive Docs: `http://localhost:8000/docs`
+*This cross-platform Python orchestrator automatically detects your operating system, configures the virtual environment, installs any missing backend/frontend packages, and launches both services simultaneously with synchronized logging and graceful shutdown (`Ctrl + C`).*
 
-#### 2. Frontend (React + TypeScript):
-```powershell
+---
+
+### Option 2: Linux / Ubuntu / Debian / macOS (Native Bash Script)
+```bash
+chmod +x start_caltracker.sh
+./start_caltracker.sh
+```
+
+---
+
+### Option 3: Windows (1-Click Batch File)
+Double-click `start_caltracker.bat` or run in Command Prompt:
+```cmd
+start_caltracker.bat
+```
+
+---
+
+### Option 4: Manual Step-by-Step Launch
+
+#### 🐧 On Linux / Ubuntu / Debian / macOS:
+```bash
+# Step 1: Ensure Python venv and Node are installed (Ubuntu/Debian)
+sudo apt update && sudo apt install -y python3 python3-pip python3-venv nodejs npm
+
+# Step 2: Launch Backend (Terminal 1)
+cd backend
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+uvicorn main:app --reload --host 127.0.0.1 --port 8000
+
+# Step 3: Launch Frontend (Terminal 2)
 cd frontend
+npm install
 npm run dev
 ```
-- Web Application is live at: `http://localhost:5173`
+
+#### 🪟 On Windows:
+```powershell
+# Terminal 1 - Backend (FastAPI):
+cd backend
+python -m venv venv
+.\venv\Scripts\activate
+pip install -r requirements.txt
+uvicorn main:app --reload --port 8000
+
+# Terminal 2 - Frontend (React + Vite):
+cd frontend
+npm install
+npm run dev
+```
+
+- **Frontend App**: `http://localhost:5173`
+- **Backend API**: `http://127.0.0.1:8000`
+- **Interactive Swagger Docs**: `http://127.0.0.1:8000/docs`
 
 ---
 

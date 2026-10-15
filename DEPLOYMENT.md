@@ -4,29 +4,51 @@ This guide explains how to host CalTracker both **locally** and **100% free on t
 
 ---
 
-## 1. Quick Start Locally (Development)
+## 1. Quick Start Locally (Universal Cross-Platform)
 
-### A. Start Python Backend
-Open a terminal in `d:\CalTracker\backend`:
-```powershell
-# Activate virtual environment
-.\venv\Scripts\Activate.ps1
-
-# Run FastAPI server
-uvicorn main:app --reload --port 8000
+### Option A: Universal 1-Command (All Operating Systems)
+From the root directory:
+```bash
+python run.py       # Windows
+python3 run.py      # Linux / Ubuntu / macOS
 ```
-Backend will be live at: `http://localhost:8000` (Interactive Swagger API documentation at `http://localhost:8000/docs`).
+*Automatically detects the OS, prepares the Python venv, installs npm dependencies, and launches both services simultaneously.*
 
-> **Note on Database**: If you haven't connected MongoDB yet, CalTracker automatically uses its built-in resilient local storage engine without crashing! When you add your `MONGO_URI` in `backend/.env`, it will immediately stream to MongoDB.
+### Option B: Linux / Ubuntu Native Script
+```bash
+chmod +x start_caltracker.sh
+./start_caltracker.sh
+```
 
----
+### Option C: Manual Launch by Operating System
 
-### B. Start Frontend (React + TypeScript)
-Open a second terminal in `d:\CalTracker\frontend`:
-```powershell
+#### 🐧 Linux / Ubuntu:
+```bash
+# Terminal 1 - Backend (FastAPI):
+cd backend
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+uvicorn main:app --reload --host 127.0.0.1 --port 8000
+
+# Terminal 2 - Frontend (React + TypeScript):
+cd frontend
+npm install
 npm run dev
 ```
-Frontend will be live at: `http://localhost:5173`.
+
+#### 🪟 Windows:
+```powershell
+# Terminal 1 - Backend (FastAPI):
+cd backend
+.\venv\Scripts\Activate.ps1
+uvicorn main:app --reload --port 8000
+
+# Terminal 2 - Frontend (React + TypeScript):
+cd frontend
+npm install
+npm run dev
+```
 
 ---
 
