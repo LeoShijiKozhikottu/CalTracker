@@ -113,7 +113,7 @@ async def analyze_food_image(
             if custom_dish_hint:
                 prompt_with_hint += f"\n\nAdditional user hint about this dish: \"{custom_dish_hint}\". Make sure to prioritize identifying items matching this description."
 
-            candidate_models = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"]
+            candidate_models = ["gemini-flash-latest", "gemini-3.8-flash", "gemini-3.7-flash", "gemini-3.5-flash"]
             for model_name in candidate_models:
                 try:
                     response = client.models.generate_content(

@@ -412,7 +412,7 @@ export const FoodScannerWindow: React.FC<FoodScannerWindowProps> = ({
                   <span>{geminiConfigured ? 'Live Vision AI Active' : 'Smart Offline Matcher'}</span>
                 </div>
                 <div className="text-[11px] text-slate-300 font-medium">
-                  {geminiConfigured ? 'Google Gemini 2.5/2.0' : 'No API key detected'}
+                  {geminiConfigured ? 'Google Gemini 3.8 Flash' : 'No API key detected'}
                 </div>
               </div>
               <button
