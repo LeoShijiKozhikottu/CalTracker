@@ -16,7 +16,7 @@ async def list_friends_progress(date: Optional[str] = None):
     meal_col = db_manager.get_meals_collection()
     workout_col = db_manager.get_workouts_collection()
 
-    users_cursor = await user_col.find({})
+    users_cursor = user_col.find({})
     users = await users_cursor.to_list(length=100)
 
     comparison_list: List[FriendComparisonItem] = []
@@ -27,13 +27,13 @@ async def list_friends_progress(date: Optional[str] = None):
         target_p = float(u.get("target_macros", {}).get("protein_g", 120.0))
 
         # Meals for today
-        meals_cursor = await meal_col.find({"user_id": user_id, "date": date})
+        meals_cursor = meal_col.find({"user_id": user_id, "date": date})
         meals = await meals_cursor.to_list(length=100)
         consumed_cals = sum(m.get("total_calories", 0.0) for m in meals)
         consumed_p = sum(m.get("total_macros", {}).get("protein_g", 0.0) for m in meals)
 
         # Workouts for today
-        workouts_cursor = await workout_col.find({"user_id": user_id, "date": date})
+        workouts_cursor = workout_col.find({"user_id": user_id, "date": date})
         workouts = await workouts_cursor.to_list(length=100)
         cals_burned = sum(w.get("calories_burned", 0.0) for w in workouts)
         workouts_count = len(workouts)
@@ -99,7 +99,7 @@ async def compare_two_friends(
 
     async def get_user_stats(user_doc):
         uid = user_doc["id"]
-        meals_cursor = await meal_col.find({"user_id": uid, "date": date})
+        meals_cursor = meal_col.find({"user_id": uid, "date": date})
         meals = await meals_cursor.to_list(length=100)
         cals = sum(m.get("total_calories", 0.0) for m in meals)
         p = sum(m.get("total_macros", {}).get("protein_g", 0.0) for m in meals)
@@ -107,7 +107,7 @@ async def compare_two_friends(
         f = sum(m.get("total_macros", {}).get("fats_g", 0.0) for m in meals)
         sugar = sum(m.get("total_micros", {}).get("sugar_g", 0.0) for m in meals)
 
-        workouts_cursor = await workout_col.find({"user_id": uid, "date": date})
+        workouts_cursor = workout_col.find({"user_id": uid, "date": date})
         workouts = await workouts_cursor.to_list(length=100)
         burned = sum(w.get("calories_burned", 0.0) for w in workouts)
 

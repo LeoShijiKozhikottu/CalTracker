@@ -1,3 +1,4 @@
+from typing import Optional, Dict, Any
 from models.schemas import (
     FitnessGoal,
     ActivityLevel,
@@ -33,9 +34,9 @@ def calculate_targets(
     activity_level: ActivityLevel,
     fitness_goal: FitnessGoal,
     diet_style: DietStyle,
-    custom_calories: float = None,
-    custom_protein: float = None
-) -> dict:
+    custom_calories: Optional[float] = None,
+    custom_protein: Optional[float] = None
+) -> Dict[str, Any]:
     bmr = calculate_bmr(weight_kg, height_cm, age, gender)
     tdee = calculate_tdee(bmr, activity_level)
 

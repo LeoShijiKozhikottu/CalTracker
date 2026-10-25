@@ -63,7 +63,7 @@ async def analyze_food(
             
         items, insight = await analyze_food_image(
             contents, 
-            filename=image.filename, 
+            filename=image.filename or "food.jpg", 
             custom_dish_hint=custom_dish_hint
         )
         
@@ -93,7 +93,7 @@ async def analyze_food(
 
         return {
             "success": True,
-            "filename": image.filename,
+            "filename": image.filename or "food.jpg",
             "image_url": image_data_uri,
             "items": [item.model_dump() for item in items],
             "total_calories": round(tot_cals, 1),

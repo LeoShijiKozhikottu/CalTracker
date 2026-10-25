@@ -54,7 +54,7 @@ async def ensure_seed_profiles():
 @router.get("", response_model=List[UserProfile])
 async def list_profiles():
     col = db_manager.get_users_collection()
-    cursor = await col.find({})
+    cursor = col.find({})
     users = await cursor.to_list(length=100)
     return users
 

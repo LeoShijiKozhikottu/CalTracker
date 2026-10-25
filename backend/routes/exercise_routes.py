@@ -54,7 +54,7 @@ async def get_daily_workout_logs(
 ):
     """Retrieve all exercises logged by a user for a specific date."""
     col = db_manager.get_workouts_collection()
-    cursor = await col.find({"user_id": user_id, "date": date})
+    cursor = col.find({"user_id": user_id, "date": date})
     logs = await cursor.to_list(length=100)
     return logs
 

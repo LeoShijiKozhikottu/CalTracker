@@ -9,6 +9,19 @@ interface DailyDashboardProps {
 }
 
 export const DailyDashboard: React.FC<DailyDashboardProps> = ({ summary, profile }) => {
+  const calorie_progress_pct = summary?.calorie_progress_pct ?? 0;
+
+  // Trigger celebration if protein or calories target reached without excessive overflow
+  useEffect(() => {
+    if (calorie_progress_pct >= 95 && calorie_progress_pct <= 108) {
+      confetti({
+        particleCount: 50,
+        spread: 60,
+        origin: { y: 0.7 }
+      });
+    }
+  }, [calorie_progress_pct]);
+
   if (!summary || !profile) {
     return (
       <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-8 text-center animate-pulse">
@@ -27,20 +40,8 @@ export const DailyDashboard: React.FC<DailyDashboardProps> = ({ summary, profile
     remaining_macros,
     consumed_micros,
     target_micros,
-    calorie_progress_pct,
     protein_progress_pct
   } = summary;
-
-  // Trigger celebration if protein or calories target reached without excessive overflow
-  useEffect(() => {
-    if (calorie_progress_pct >= 95 && calorie_progress_pct <= 108) {
-      confetti({
-        particleCount: 50,
-        spread: 60,
-        origin: { y: 0.7 }
-      });
-    }
-  }, [calorie_progress_pct]);
 
   // Micro limits analysis
   const sugarExceeded = consumed_micros.sugar_g > (target_micros?.sugar_g || 40);

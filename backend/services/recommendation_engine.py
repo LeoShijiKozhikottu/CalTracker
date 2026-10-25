@@ -19,13 +19,20 @@ def generate_recommendations(
     rem_c = summary.remaining_macros.carbs_g
     rem_f = summary.remaining_macros.fats_g
     
-    logged_meal_types = {m.meal_type.value for m in summary.meals}
+    logged_meal_types = set()
+    for m in summary.meals:
+        mt = getattr(m, "meal_type", None)
+        if mt is None and isinstance(m, dict):
+            mt = m.get("meal_type")
+        val = getattr(mt, "value", str(mt)) if mt is not None else ""
+        logged_meal_types.add(str(val).lower())
+
     is_lunch_logged = "lunch" in logged_meal_types
     is_dinner_logged = "dinner" in logged_meal_types
 
-    diet = user.diet_style
-    is_veg = diet in [DietStyle.VEGETARIAN, DietStyle.VEGAN]
-    is_vegan = diet == DietStyle.VEGAN
+    diet_val = getattr(user.diet_style, "value", str(user.diet_style)).lower()
+    is_veg = diet_val in ["vegetarian", "vegan"]
+    is_vegan = diet_val == "vegan"
     
     recommendations: List[MealRecommendation] = []
     
@@ -160,9 +167,10 @@ def generate_recommendations(
 
     # Contextual Nutritionist Tip
     tip = ""
-    if user.fitness_goal == FitnessGoal.BULKING:
+    goal_val = getattr(user.fitness_goal, "value", str(user.fitness_goal)).lower()
+    if goal_val == "bulking":
         tip = f"You are on a Bulking Diet ({user.target_calories} kcal target). You still have {rem_cals} kcal and {rem_p}g protein to consume today. Make sure your afternoon and dinner include dense protein and healthy carbs."
-    elif user.fitness_goal == FitnessGoal.CUTTING:
+    elif goal_val == "cutting":
         tip = f"You are on a Cutting Diet ({user.target_calories} kcal limit). Keep carbohydrate portions moderate in the afternoon and prioritize high protein ({rem_p}g left) to prevent muscle breakdown."
     else:
         tip = f"Maintenance Diet active. You have {rem_cals} kcal remaining today. Balance your afternoon lunch and dinner with clean whole foods."

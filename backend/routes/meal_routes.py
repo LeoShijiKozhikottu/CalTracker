@@ -87,7 +87,7 @@ async def get_daily_summary(
     target_micros = MicroNutrients(**user_data.get("target_micros", {}))
 
     meal_col = db_manager.get_meals_collection()
-    cursor = await meal_col.find({"user_id": user_id, "date": date})
+    cursor = meal_col.find({"user_id": user_id, "date": date})
     meals_raw = await cursor.to_list(length=100)
 
     consumed_cals = sum(m.get("total_calories", 0) for m in meals_raw)
@@ -152,7 +152,7 @@ async def get_daily_summary(
     prot_pct = round((consumed_p / target_macros.protein_g) * 100, 1) if target_macros.protein_g > 0 else 0.0
 
     workout_col = db_manager.get_workouts_collection()
-    workouts_cursor = await workout_col.find({"user_id": user_id, "date": date})
+    workouts_cursor = workout_col.find({"user_id": user_id, "date": date})
     workouts_raw = await workouts_cursor.to_list(length=100)
     cals_burned = sum(w.get("calories_burned", 0.0) for w in workouts_raw)
 
