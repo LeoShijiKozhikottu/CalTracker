@@ -1,6 +1,21 @@
 # CalTracker: Hosting & Deployment Guide
 
-This guide explains how to host CalTracker both **locally** and **100% free on the cloud** using **MongoDB Atlas**, **Render** (Python Backend), and **Vercel** (TypeScript Frontend).
+This guide explains how to host CalTracker both **100% free in production on the cloud** and **locally / in Docker**.
+
+---
+
+## 🌟 Live Production Deployment (Current Architecture)
+
+Your full-stack application is deployed and live in the cloud:
+
+| Component | Platform | Live URL / Endpoint | Details |
+| :--- | :--- | :--- | :--- |
+| **Frontend UI** | **Vercel** | Your Vercel domain (`https://*-leo-krf.vercel.app`) | React 18, Vite, Tailwind CSS, Lucide icons |
+| **Backend API** | **Render** | `https://caltracker-backend-kfkh.onrender.com` | FastAPI, Python 3.11, Uvicorn |
+| **API Docs (Swagger)** | **Render** | `https://caltracker-backend-kfkh.onrender.com/docs` | Interactive API documentation |
+| **Health Check** | **Render** | `https://caltracker-backend-kfkh.onrender.com/api/health` | Live backend & database status |
+| **Database** | **MongoDB Atlas** | Cloud Replica Set (`caltracker_db`) | Free M0 tier with persistent storage |
+| **AI Vision Model** | **Google Gemini** | Google GenAI API | Multimodal food plate analysis |
 
 ---
 
