@@ -97,9 +97,141 @@ npm run dev
 
 ---
 
-## 3. Docker Deployment (Single Server / VPS)
-If you have a VPS (AWS EC2, DigitalOcean, Hetzner, etc.):
-```bash
-docker-compose up --build -d
+## 3. Docker Deployment (Local Machine & Cloud VPS)
+
+Docker packages CalTracker into isolated, portable containers that run identically on **Windows, macOS, Ubuntu, Debian, AWS EC2, DigitalOcean, Linode, or Hetzner**.
+
+### 🏗️ Docker Architecture Overview
+When you deploy with Docker Compose, 3 coordinated containers are launched in an internal bridge network:
+
 ```
-All 3 containers (MongoDB, Backend, and Frontend) will spin up automatically.
+                  ┌──────────────────────────────────────────────┐
+                  │                 USER BROWSER                 │
+                  └───────────────┬──────────────┬───────────────┘
+                                  │ :3000        │ :8000
+                                  ▼              ▼
+           ┌─────────────────────────────┐  ┌─────────────────────────┐
+           │   caltracker_frontend       │  │   caltracker_backend    │
+           │  (Nginx + Built React App)  │  │   (FastAPI + Uvicorn)   │
+           │  Proxies /api ─────────────►│──┼─►                       │
+           └─────────────────────────────┘  └────────────┬────────────┘
+                                                         │ :27017
+                                                         ▼
+                                            ┌─────────────────────────┐
+                                            │   caltracker_mongodb    │
+                                            │   (Persistent Volume)   │
+                                            └─────────────────────────┘
+```
+
+- **Frontend Container (`caltracker_frontend`)**: Nginx serving the production-built React/TypeScript app on port `3000` (or `80`) and automatically reverse-proxying all `/api/*` traffic to the backend.
+- **Backend Container (`caltracker_backend`)**: Python 3.10 slim running FastAPI and Uvicorn on port `8000`.
+- **Database Container (`caltracker_mongodb`)**: MongoDB with a persistent Docker volume (`mongo_data`) so all logged meals, user stats, and workout history survive restarts and updates.
+
+---
+
+### Step 1: Install Docker & Docker Compose
+
+#### 🪟 Windows or 🍏 macOS:
+1. Download and install **Docker Desktop** from [docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop/).
+2. On Windows, ensure WSL 2 backend is enabled during installation.
+3. Start Docker Desktop and verify in PowerShell / Terminal:
+   ```bash
+   docker --version
+   docker compose version
+   ```
+
+#### 🐧 Linux / Ubuntu / Debian VPS:
+Run the official Docker convenience script:
+```bash
+# Update and install Docker
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+
+# Enable non-root user permissions
+sudo usermod -aG docker $USER
+newgrp docker
+
+# Verify Docker Compose v2 is active
+docker compose version
+```
+
+---
+
+### Step 2: Configure Environment Variables
+
+Create or edit your `.env` file in the project root:
+
+```bash
+# Optional: Google Gemini Vision AI key for live food scanning
+# Get a free key at: https://aistudio.google.com/app/apikey
+GEMINI_API_KEY=your_gemini_api_key_here
+
+# Optional: If you prefer MongoDB Atlas cloud instead of the local mongo container:
+# MONGO_URI=mongodb+srv://user:pass@cluster0.abcde.mongodb.net/?retryWrites=true&w=majority
+```
+
+*(If you leave `MONGO_URI` blank, CalTracker automatically uses the built-in `caltracker_mongodb` container!)*
+
+---
+
+### Step 3: Build & Start All Containers
+
+Run the following command from the root `CalTracker/` directory:
+
+```bash
+docker compose up --build -d
+```
+*(On older versions of docker-compose, use `docker-compose up --build -d`)*
+
+Docker will:
+1. Pull the official MongoDB image.
+2. Build the optimized Python backend image with all dependencies.
+3. Build the React/TypeScript production bundle and place it inside lightweight Nginx.
+4. Launch all 3 services in background detached mode (`-d`).
+
+---
+
+### Step 4: Verify Deployment
+
+1. Check running containers:
+   ```bash
+   docker compose ps
+   ```
+   You should see 3 containers in `Up` status:
+   - `caltracker_frontend` on `0.0.0.0:3000->80/tcp`
+   - `caltracker_backend` on `0.0.0.0:8000->8000/tcp`
+   - `caltracker_mongodb` on `0.0.0.0:27017->27017/tcp`
+
+2. Open the application:
+   - **Web UI**: Open your browser to [http://localhost:3000](http://localhost:3000) (or `http://YOUR_SERVER_IP:3000`).
+   - **Swagger API Docs**: [http://localhost:8000/docs](http://localhost:8000/docs)
+   - **Backend Health Check**: [http://localhost:8000/api/health](http://localhost:8000/api/health)
+
+---
+
+### Step 5: Useful Docker Commands for Maintenance
+
+| Task | Command |
+| :--- | :--- |
+| **View live logs for all services** | `docker compose logs -f` |
+| **View backend logs only** | `docker compose logs -f backend` |
+| **View frontend/nginx logs only** | `docker compose logs -f frontend` |
+| **Restart all containers** | `docker compose restart` |
+| **Stop all containers (without losing data)** | `docker compose down` |
+| **Rebuild after making code changes** | `docker compose up --build -d` |
+| **Check container resource usage (CPU/RAM)** | `docker stats` |
+| **Wipe all containers & data volume (Clean Slate)** | `docker compose down -v` |
+
+---
+
+### Step 6: Production VPS Domain & Free SSL (HTTPS)
+
+If deploying to a public VPS (DigitalOcean, AWS, Hetzner, etc.):
+
+1. **Expose Port 80 directly:**
+   In `docker-compose.yml`, change the frontend port mapping from `"3000:80"` to `"80:80"`.
+2. **Point your domain:**
+   Create an **A Record** in your DNS provider (e.g. Cloudflare, Namecheap) pointing `caltracker.yourdomain.com` to your VPS public IP address.
+3. **Free SSL with Cloudflare or Certbot:**
+   - **Option A (Easiest)**: Route your domain through Cloudflare and enable **SSL/TLS Full**. Cloudflare provides automatic HTTPS with zero extra server configuration.
+   - **Option B (Certbot)**: Use Certbot or an Nginx reverse proxy with automated Let's Encrypt certificates.
